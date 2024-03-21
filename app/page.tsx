@@ -20,7 +20,7 @@ const HomePage = () => {
             </p>
 
             <h1 className='head-text'>
-              Unleash the Power of
+              Unleash the Power of{' '}
               <span className='primary'>WisePriceScraper</span>
             </h1>
 
