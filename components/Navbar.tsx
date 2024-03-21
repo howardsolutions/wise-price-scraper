@@ -20,7 +20,7 @@ const Navbar = () => {
             alt='Logo'
           />
           <p className='nav-logo'>
-            Wise <span className='text-primary'>Price Scraper</span>
+            Wise<span className='text-primary'>PriceScraper</span>
           </p>
         </Link>
 
