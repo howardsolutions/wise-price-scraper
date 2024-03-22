@@ -28,6 +28,7 @@ export async function scrapedAmazonProduct(url: string) {
         const $ = cheerio.load(response.data);
 
         // Extract the product title and price
+        // And all relevant properties we want to extract from amazon
         const title = $('#productTitle').text().trim();
         const currentPrice = extractPrice(
             $('.priceToPay span.a-price-whole'),
