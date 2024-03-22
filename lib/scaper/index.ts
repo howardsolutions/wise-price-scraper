@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { extractPrice } from "../utils";
+import { extractCurrency, extractPrice } from "../utils";
 
 export async function scrapedAmazonProduct(url: string) {
     if (!url) return;
@@ -43,7 +43,35 @@ export async function scrapedAmazonProduct(url: string) {
             $('.a-size-base.a-color-price')
         );
 
+        const outOfStock = $('#availability span').text().trim().toLowerCase() === 'currently unavailable';
 
+        const images = $('#imgBlkFront').attr('data-a-dynamic-image') || $('#landingImage').attr('data-a-dynamic-image') || '{}';
+
+        const imageUrls = Object.keys(JSON.parse(images))
+
+        const currency = extractCurrency($('.a-price-symbol'));
+        const discountRate = $('.savingPercentage').text().replace(/[-%]/g, '');
+
+        const stars = $('.reviewCountTextLinkedHistogram span a.a-popover-trigger .a-size-base').text().trim();
+        const numOfRatings = $('.a-declarative #acrCustomerReviewLink span#acrCustomerReviewText').text();
+
+        // Construct data obj with scapred information from amazon
+        const data = {
+            url,
+            currency: currency || '$',
+            image: imageUrls?.at(0) || '',
+            title,
+            currentPrice: +currentPrice,
+            originalPrice: +originalPrice,
+            priceHistory: [],
+            discountRate: +discountRate,
+            category: 'category',
+            numOfRatings,
+            stars: +stars,
+            isOutOfStock: outOfStock
+        }
+
+        return data;
     } catch (err: any) {
         throw new Error(`failed to scrape product: ${err.message}`);
     }
