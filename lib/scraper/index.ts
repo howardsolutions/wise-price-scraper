@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { extractCurrency, extractPrice } from "../utils";
+import { extractCurrency, extractDescription, extractPrice } from "../utils";
 
 export async function scrapedAmazonProduct(url: string) {
     if (!url) return;
@@ -54,6 +54,7 @@ export async function scrapedAmazonProduct(url: string) {
 
         const stars = $('.reviewCountTextLinkedHistogram span a.a-popover-trigger .a-size-base').text().trim();
         const numOfRatings = $('.a-declarative #acrCustomerReviewLink span#acrCustomerReviewText').text();
+        const description = extractDescription($);
 
         // Construct data obj with scapred information from amazon
         const data = {
@@ -61,14 +62,18 @@ export async function scrapedAmazonProduct(url: string) {
             currency: currency || '$',
             image: imageUrls?.at(0) || '',
             title,
-            currentPrice: +currentPrice,
-            originalPrice: +originalPrice,
+            currentPrice: +currentPrice || +originalPrice,
+            originalPrice: +originalPrice || +currentPrice,
             priceHistory: [],
             discountRate: +discountRate,
             category: 'category',
             numOfRatings,
             stars: +stars,
-            isOutOfStock: outOfStock
+            isOutOfStock: outOfStock,
+            description,
+            lowestPrice: +currentPrice || +originalPrice,
+            highestPrice: +originalPrice || +currentPrice,
+            averagePrice: +currentPrice || +originalPrice
         }
 
         return data;
