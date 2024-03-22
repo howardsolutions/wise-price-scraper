@@ -5,8 +5,9 @@ import Product from "../models/product.model";
 import { connectDB } from "../mongoose";
 import { scrapedAmazonProduct } from "../scraper";
 import { getAveragePrice, getHighestPrice, getLowestPrice } from "../utils";
+import { Product as ProductType } from '@/types';
 
-export async function scrapeAndStoreProduct(productUrl: string) {
+export async function scrapeAndStoreProduct(productUrl: string): Promise<ProductType | undefined> {
     if (!productUrl) return;
 
     try {
@@ -47,3 +48,15 @@ export async function scrapeAndStoreProduct(productUrl: string) {
         throw new Error(`Failed to create/update product: ${error.message}`)
     }
 }
+
+export async function getProductById(productId: string): Promise<ProductType | undefined> {
+    try {
+        connectDB();
+        const product = await Product.findOne({ _id: productId })
+
+        if (!product) return;
+
+    } catch (error) {
+        console.log(error);
+    }
+} 
