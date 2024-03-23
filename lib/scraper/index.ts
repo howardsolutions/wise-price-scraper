@@ -1,9 +1,10 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { extractCurrency, extractDescription, extractPrice } from "../utils";
+import { Product } from "@/types";
 
-export async function scrapedAmazonProduct(url: string) {
-    if (!url) return;
+export async function scrapedAmazonProduct(url: string): Promise<Product | null> {
+    if (!url) return null;
 
     // BrightData proxy configuration
     const username = String(process.env.BRIGHT_DATA_USERNAME);

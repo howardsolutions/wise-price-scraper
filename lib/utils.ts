@@ -1,4 +1,4 @@
-import { PriceHistoryItem, Product } from "@/types";
+import { NotificationType, PriceHistoryItem, Product } from "@/types";
 
 const Notification = {
     WELCOME: 'WELCOME',
@@ -94,7 +94,7 @@ export function getAveragePrice(priceList: PriceHistoryItem[]) {
 export const getEmailNotifType = (
     scrapedProduct: Product,
     currentProduct: Product
-) => {
+): NotificationType | null => {
     const lowestPrice = getLowestPrice(currentProduct.priceHistory);
 
     if (scrapedProduct.currentPrice < lowestPrice) {
