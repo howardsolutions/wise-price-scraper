@@ -56,6 +56,21 @@ export async function getProductById(productId: string): Promise<ProductType | u
 
         if (!product) return;
 
+        return product;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function getProducts(): Promise<ProductType[] | undefined> {
+    try {
+        connectDB();
+
+        const products = await Product.find({});
+
+        if (!products) return;
+
+        return products;
     } catch (error) {
         console.log(error);
     }
