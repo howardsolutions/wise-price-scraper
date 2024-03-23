@@ -74,4 +74,23 @@ export async function getProducts(): Promise<ProductType[] | undefined> {
     } catch (error) {
         console.log(error);
     }
+}
+
+export async function getSimilarProducts(productId: string): Promise<ProductType[] | undefined> {
+    try {
+        connectDB();
+
+        const currentProduct = await Product.findById(productId);
+
+        if (!currentProduct) return;
+
+        const similarProducts = await Product.find({
+            _id: { $ne: productId }
+        }).limit(3);
+
+        return similarProducts;
+
+    } catch (error) {
+        console.log(error);
+    }
 } 
