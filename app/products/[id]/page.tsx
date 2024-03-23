@@ -7,6 +7,7 @@ import { Product } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { getSimilarProducts } from '@/lib/actions';
 
 type Props = {
   params: { id: string };
@@ -16,6 +17,8 @@ const ProductDetails = async ({ params: { id } }: Props) => {
   const product: Product | undefined = await getProductById(id);
 
   if (!product) redirect('/');
+
+  const similarProducts = await getSimilarProducts(id);
 
   return (
     <div className='product-container'>
@@ -185,7 +188,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
           </Link>
         </button>
       </div>
-      {/* 
+
       {similarProducts && similarProducts?.length > 0 && (
         <div className='py-14 flex flex-col gap-2 w-full'>
           <p className='section-text'>Similar Products</p>
@@ -196,7 +199,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
             ))}
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 };
