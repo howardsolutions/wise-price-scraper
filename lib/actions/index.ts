@@ -94,4 +94,6 @@ export async function getSimilarProducts(productId: string): Promise<ProductType
     } catch (error) {
         console.log(error);
     }
-} 
+}
+
+// Email Functionality
