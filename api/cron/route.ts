@@ -6,6 +6,10 @@ import { getAveragePrice, getEmailNotifType, getHighestPrice, getLowestPrice } f
 import { Product as ProductType, User } from "@/types";
 import { NextResponse } from "next/server";
 
+export const revalidate = 0;
+export const maxDuration = 300;
+export const dynamic = 'force-dynacmic';
+
 export async function GET() {
     try {
         connectDB();
