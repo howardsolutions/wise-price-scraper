@@ -70,7 +70,7 @@ export async function scrapedAmazonProduct(url: string): Promise<Product | null>
             discountRate: +discountRate,
             category: 'category',
             numOfRatings,
-            stars: +stars,
+            stars: +stars || 10,
             isOutOfStock: outOfStock,
             description,
             lowestPrice: +currentPrice || +originalPrice,
